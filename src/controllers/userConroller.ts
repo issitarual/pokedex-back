@@ -8,7 +8,7 @@ export async function signUp (req: Request, res: Response) {
 
   const user = await userService.findUserById(email);
   if(user) return res.sendStatus(409);
-  return res.sendStatus(200);
+
   const userInfo = {
     email,
     password,
@@ -21,5 +21,5 @@ export async function signUp (req: Request, res: Response) {
 }
 
 export async function singIn (req: Request, res: Response) {
-
+  res.sendStatus(200);
 }
