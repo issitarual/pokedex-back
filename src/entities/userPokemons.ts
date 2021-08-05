@@ -11,7 +11,4 @@ export default class UserPokemons {
 
   @Column()
   pokemonId: number;
-
-  @ManyToOne(() => Pokemons, pokemon => pokemon.inMyPokemons)
-  userPokemons: UserPokemons;
 }

@@ -26,7 +26,4 @@ export default class Pokemons {
 
   @Column()
   description: string
-
-  @OneToMany(() => UserPokemons, userPokemons => userPokemons.userPokemons)
-  inMyPokemons: Pokemons[];
 }

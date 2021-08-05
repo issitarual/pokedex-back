@@ -8,7 +8,18 @@ export async function listPokemons(id: number){
             userId: id
         }
     });
-    const pokemons = await getRepository(Pokemons).find({ relations: ["inMyPokemons"] });
+    const pokemons: any = await getRepository(Pokemons).find();
 
+    for(let i = 0; i < pokemons.length; i++){
+        const pokemonId = pokemons[i].id;
+        for(let j = 0; j < userPokemons.length; j++){
+            if(userPokemons[j].id === pokemonId){
+                pokemons[i].inMyPokemons = true;
+            }
+            else{
+                pokemons[i].inMyPokemons = false;
+            }
+        }
+    }
     return pokemons;
 }
