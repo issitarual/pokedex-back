@@ -1,7 +1,14 @@
 import { getRepository } from "typeorm";
 import Pokemons from "../entities/Pokemons";
+import UserPokemons from "../entities/userPokemons";
 
 export async function listPokemons(id: number){
-    const pokemons = await getRepository(Pokemons).find();
+    const userPokemons = await getRepository(UserPokemons).find({
+        where:{
+            userId: id
+        }
+    });
+    const pokemons = await getRepository(Pokemons).find({ relations: ["userPokemons"] });
+
     return pokemons;
 }
