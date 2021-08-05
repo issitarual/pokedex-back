@@ -45,8 +45,7 @@ export async function newUser ({email, password, confirmPassword}: SignUp) {
 }
 
 export async function verifyPassword (databasePassword: string, password: string) {
- const validatePassword = bcrypt.compareSync(password, databasePassword);
- if(!validatePassword) return false;
+ return bcrypt.compareSync(password, databasePassword);
 }
 
 export async function login (id: number) {
