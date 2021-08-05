@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const signInSchema = Joi.object({
+const userSchema = Joi.object({
     email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
 
@@ -10,4 +10,4 @@ const signInSchema = Joi.object({
     repeat_password: Joi.ref('password'),
 })
 
-export {signInSchema};
+export {userSchema};

@@ -9,7 +9,7 @@ export interface SignUp {
   confirmPassword: string
 }
 
-import { signInSchema } from "../schemas/signInSchemas";
+import { userSchema } from "../schemas/userSchemas";
 
 export async function findUserById (email: string) {
   const users = await getRepository(User).findOne({
@@ -17,21 +17,17 @@ export async function findUserById (email: string) {
       email: email
     }
   });
-  console.log(users);
   return users;
 }
 
 export async function newUser ({email, password, confirmPassword}: SignUp) {
-   const value = signInSchema.validate({
+   const value = userSchema.validate({
     email: email,
     password: password,
     repeat_password: confirmPassword
   })
 
-  if(value.error) {
-    console.log(value.error);
-    return false;
-  };
+  if(value.error) return false;
 
   const user = {
     email,
