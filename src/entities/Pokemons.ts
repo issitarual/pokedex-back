@@ -28,5 +28,5 @@ export default class Pokemons {
   description: string
 
   @OneToMany(() => UserPokemons, userPokemons => userPokemons.userPokemons)
-  inMyPokemons: UserPokemons[];
+  inMyPokemons: Pokemons[];
 }

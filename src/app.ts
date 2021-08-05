@@ -20,16 +20,18 @@ app.get("/", (req, res) => {
   res.send("ok");
 });
 
-app.post("/sign-up", userController.signUp);
-app.post("/sign-in", userController.singIn);
-app.get("/pokemons", verifyToken,pokemonController.allPokemons);
-app.post("/my-pokemons/:id/add", verifyToken);
-app.post("/my-pokemons/:id/remove", verifyToken);
-
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
   res.sendStatus(500);
 });
+
+app.post("/sign-up", userController.signUp);
+app.post("/sign-in", userController.singIn);
+app.get("/pokemons", verifyToken, pokemonController.allPokemons);
+app.post("/my-pokemons/:id/add", verifyToken);
+app.post("/my-pokemons/:id/remove", verifyToken);
+
+
 
 export async function init () {
   await connectDatabase();
