@@ -6,7 +6,7 @@ export async function signUp (req: Request, res: Response) {
   const {email, password, confirmPassword}: userService.SignUp = req.body;
   if(!email || !password || !confirmPassword) return res.sendStatus(400);
 
-  const user = await userService.findUserById(email);
+  const user = await userService.findUserByEmail(email);
   if(user) return res.sendStatus(409);
 
   const userInfo = {
@@ -21,5 +21,15 @@ export async function signUp (req: Request, res: Response) {
 }
 
 export async function singIn (req: Request, res: Response) {
-  res.sendStatus(200);
+  const { email, password }: { email: string; password: string} = req.body;
+  if(!email || !password) return res.sendStatus(400);
+
+  const validateUser = await userService.findUserByEmail(email);
+  if(!validateUser) return res.sendStatus(400);
+
+  const validatePassword = await userService.verifyPassword(validateUser.password, password)
+  if(!validatePassword) return res.sendStatus(401);
+
+  const token = await userService.login(validateUser.id);
+  res.send(token);
 }

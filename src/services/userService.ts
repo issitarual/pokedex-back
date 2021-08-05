@@ -1,23 +1,28 @@
 import { getRepository } from "typeorm";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import User from "../entities/User";
 
-export interface SignUp {
-  email: string;
-  password: string;
+export interface SignUp extends SignIn{
   confirmPassword: string
 }
 
-import { userSchema } from "../schemas/userSchemas";
+export interface SignIn {
+  email: string;
+  password: string;
+}
 
-export async function findUserById (email: string) {
-  const users = await getRepository(User).findOne({
+import { userSchema } from "../schemas/userSchemas";
+import Session from "../entities/Session";
+
+export async function findUserByEmail (email: string) {
+  const user = await getRepository(User).findOne({
     where: { 
       email: email
     }
   });
-  return users;
+  return user;
 }
 
 export async function newUser ({email, password, confirmPassword}: SignUp) {
@@ -37,4 +42,22 @@ export async function newUser ({email, password, confirmPassword}: SignUp) {
   await getRepository(User).insert(user);
   
   return true;
+}
+
+export async function verifyPassword (databasePassword: string, password: string) {
+ const validatePassword = bcrypt.compareSync(password, databasePassword);
+ if(!validatePassword) return false;
+}
+
+export async function login (id: number) {
+  const token = jwt.sign({id}, 'secret', { algorithm: 'RS256'});
+
+ const session = {
+   userId: id,
+   token: token
+ }
+
+ await getRepository(Session).insert(session);
+ 
+ return token;
 }

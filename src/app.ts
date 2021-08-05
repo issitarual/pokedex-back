@@ -26,6 +26,8 @@ app.get("/", (req, res) => {
 app.post("/sign-up", userController.signUp);
 app.post("/sign-in", userController.singIn);
 
+
+
 export async function init () {
   await connectDatabase();
 }
