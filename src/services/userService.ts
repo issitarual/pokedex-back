@@ -59,5 +59,5 @@ export async function login (id: number) {
 
  await getRepository(Session).insert(session);
  
- return token;
+ return {token: token};
 }
