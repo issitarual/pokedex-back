@@ -50,13 +50,12 @@ export async function verifyPassword (databasePassword: string, password: string
 
 export async function login (id: number) {
   const token = jwt.sign({id}, 'secret');
-  console.log(token)
- const session = {
-   userId: id,
-   token: token
- }
+  const session = {
+    userId: id,
+    token: token
+  }
 
- await getRepository(Session).insert(session);
- 
- return {token: token};
+  await getRepository(Session).insert(session);
+  
+  return {token: token};
 }
