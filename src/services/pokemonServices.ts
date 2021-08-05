@@ -8,7 +8,7 @@ export async function listPokemons(id: number){
             userId: id
         }
     });
-    const pokemons: any = await getRepository(Pokemons).find();
+    let pokemons: any = await getRepository(Pokemons).find();
 
     for(let i = 0; i < pokemons.length; i++){
         const pokemonId = pokemons[i].id;
