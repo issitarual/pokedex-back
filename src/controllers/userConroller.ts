@@ -29,7 +29,7 @@ export async function singIn (req: Request, res: Response) {
 
   const validatePassword = await userService.verifyPassword(validateUser.password, password)
   if(!validatePassword) return res.sendStatus(401);
-  console.log("senha ok");
+
   const token = await userService.login(validateUser.id);
   res.send(token);
 }

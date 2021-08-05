@@ -49,8 +49,7 @@ export async function verifyPassword (databasePassword: string, password: string
 }
 
 export async function login (id: number) {
-  console.log("ok")
-  const token = jwt.sign({id}, 'secret', { algorithm: 'RS256'});
+  const token = jwt.sign({id}, 'secret');
   console.log(token)
  const session = {
    userId: id,
