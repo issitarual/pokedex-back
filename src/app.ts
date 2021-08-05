@@ -12,6 +12,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("ok");
+});
+
 app.get("/users", userController.getUsers);
 
 export async function init () {
