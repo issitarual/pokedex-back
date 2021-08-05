@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import User from "../entities/User";
+import { userSchema } from "../schemas/userSchemas";
+import Session from "../entities/Session";
 
 export interface SignUp extends SignIn{
   confirmPassword: string
@@ -12,9 +14,6 @@ export interface SignIn {
   email: string;
   password: string;
 }
-
-import { userSchema } from "../schemas/userSchemas";
-import Session from "../entities/Session";
 
 export async function findUserByEmail (email: string) {
   const user = await getRepository(User).findOne({
