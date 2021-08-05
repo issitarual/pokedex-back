@@ -8,7 +8,7 @@ export async function listPokemons(id: number){
             userId: id
         }
     });
-    const pokemons = await getRepository(Pokemons).find({ relations: ["userPokemons"] });
+    const pokemons = await getRepository(Pokemons).find({ relations: ["inMyPokemons"] });
 
     return pokemons;
 }
