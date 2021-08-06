@@ -8,7 +8,11 @@ export async function listPokemons(id: number){
           userId: id 
         }
       });
-    let pokemons: any[] = await getRepository(Pokemons).find();
+    let pokemons: any[] = await getRepository(Pokemons).find({
+        order: {
+            number: 'ASC'
+        }
+    });
 
     for(let i = 0; i < pokemons.length; i++){
         if(!userPokemons[0]){
