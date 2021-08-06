@@ -12,7 +12,7 @@ export default async function verifyToken(req: Request, res: Response, next: Nex
       return res.sendStatus(401);
     }
     else{
-      res.locals.id = validSession.id;  
+      res.locals.id = validSession.userId;  
       next();
     }
   }
