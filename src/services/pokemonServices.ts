@@ -15,20 +15,20 @@ export async function listPokemons(id: number){
       });
     console.log(userPokemons);
     let pokemons: any[] = await getRepository(Pokemons).find();
-    if(userPokemons === []){
-        const addUserPokemons = pokemons.map(n => n.inMyPokemons = false);
-        console.log(addUserPokemons)
-        return addUserPokemons;
-    };
 
     for(let i = 0; i < pokemons.length; i++){
-        const pokemonId = pokemons[i].id;
-        for(let j = 0; j < userPokemons.length; j++){
-            if(userPokemons[j].pokemonId === pokemonId){
-                pokemons[i].inMyPokemons = true;
-            }
-            else{
-                pokemons[i].inMyPokemons = false;
+        if(!userPokemons[0]){
+            pokemons[i].inMyPokemons = false;
+        }
+        else{
+            const pokemonId = pokemons[i].id;
+            for(let j = 0; j < userPokemons.length; j++){
+                if(userPokemons[j].pokemonId === pokemonId){
+                    pokemons[i].inMyPokemons = true;
+                }
+                else{
+                    pokemons[i].inMyPokemons = false;
+                }
             }
         }
     }
