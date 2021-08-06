@@ -15,11 +15,6 @@ export async function listPokemons(id: number){
       });
     console.log(userPokemons);
     let pokemons: any[] = await getRepository(Pokemons).find();
-    if(!userPokemons){
-        const addUserPokemons = pokemons.map(n => n.inMyPokemons = false);
-        console.log(addUserPokemons)
-        return addUserPokemons;
-    };
 
     for(let i = 0; i < pokemons.length; i++){
         const pokemonId = pokemons[i].id;
