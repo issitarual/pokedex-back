@@ -32,3 +32,22 @@ export async function listPokemons(id: number){
     }
     return pokemons;
 }
+
+export async function addUserPokemons(userId: number, pokemonId: number){
+    await getRepository(UserPokemons).insert({
+        userId: userId,
+        pokemonId: pokemonId
+    });
+}
+
+export async function removeUserPokemons(userId: number, pokemonId: number){
+    const userPokemons = await getRepository(UserPokemons).find({ 
+        where: {
+          userId: userId 
+        }
+    });
+    
+    const pokemon = userPokemons.find(n => n.pokemonId === pokemonId);
+
+    await getRepository(UserPokemons).delete({id: pokemon.id})
+}

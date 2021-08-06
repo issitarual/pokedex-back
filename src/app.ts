@@ -16,22 +16,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("ok");
-});
-
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err);
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
   res.sendStatus(500);
 });
 
 app.post("/sign-up", userController.signUp);
 app.post("/sign-in", userController.singIn);
 app.get("/pokemons", verifyToken, pokemonController.allPokemons);
-app.post("/my-pokemons/:id/add", verifyToken);
-app.post("/my-pokemons/:id/remove", verifyToken);
-
-
+app.post("/my-pokemons/:id/add", verifyToken, pokemonController.addPokemons);
+app.post("/my-pokemons/:id/remove", verifyToken, pokemonController.removePokemons);
 
 export async function init () {
   await connectDatabase();
