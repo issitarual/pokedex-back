@@ -13,25 +13,18 @@ export async function listPokemons(id: number){
             number: 'ASC'
         }
     });
-    
-    const pokemonsPassed: any = {};
-    if(userPokemons[0]){
-        for(let i = 0; i < userPokemons.length; i++){
-            const pokemonId = userPokemons[i].pokemonId;
-            pokemonsPassed.pokemonId = true;
+
+    for(let i = 0; i < pokemons.length; i++){
+        pokemons[i].inMyPokemons = false;
+        if(userPokemons[0]){
+            const pokemonId = pokemons[i].id;
+            for(let j = 0; j < userPokemons.length; j++){
+                if(userPokemons[j].pokemonId === pokemonId){
+                    pokemons[i].inMyPokemons = true;
+                }
+            }
         }
     }
-
-    for(let j = 0; j < pokemons.length; j++){
-        const pokemonId = pokemons[j].id;
-        if(pokemonsPassed.pokemonId === true){
-            pokemons[j].inMyPokemons = true;
-        }
-        else{
-            pokemons[j].inMyPokemons = false;
-        }
-    }
-
     return pokemons;
 }
 
