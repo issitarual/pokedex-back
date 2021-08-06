@@ -18,11 +18,13 @@ afterAll(async () => {
   await getConnection().close();
 });
 
+const agent = supertest(app);
+
 describe("POST /sign-up", () => {
 
   it("should answer with status 400 for inavlid params", async () => {
 
-    const response = await supertest(app).post("/sign-up").send({});
+    const response = await agent.post("/sign-up").send({});
     
     expect(response.status).toBe(400);
   });
@@ -33,7 +35,7 @@ describe("POST /sign-up", () => {
       password: faker.internet.password(),
       confirmPassword: faker.internet.password()
     }
-    const response = await supertest(app).post("/sign-up").send(body);
+    const response = await agent.post("/sign-up").send(body);
     
     expect(response.status).toBe(400);
   });
@@ -45,7 +47,7 @@ describe("POST /sign-up", () => {
       password: password,
       confirmPassword: password
     }
-    const response = await supertest(app).post("/sign-up").send(body);
+    const response = await agent.post("/sign-up").send(body);
     
     expect(response.status).toBe(400);
   });
@@ -60,7 +62,7 @@ describe("POST /sign-up", () => {
       password: password,
       confirmPassword: password
     }
-    const response = await supertest(app).post("/sign-up").send(body);
+    const response = await agent.post("/sign-up").send(body);
     
     expect(response.status).toBe(409);
   });
@@ -73,7 +75,7 @@ describe("POST /sign-up", () => {
       password: password,
       confirmPassword: password
     }
-    const response = await supertest(app).post("/sign-up").send(body);
+    const response = await agent.post("/sign-up").send(body);
     
     expect(response.status).toBe(201);
   });
@@ -83,7 +85,7 @@ describe("POST /sign-in", () => {
 
   it("should answer with status 400 for inavlid params", async () => {
 
-    const response = await supertest(app).post("/sign-in").send({});
+    const response = await agent.post("/sign-in").send({});
     
     expect(response.status).toBe(400);
   });
@@ -97,7 +99,7 @@ describe("POST /sign-in", () => {
       email: faker.internet.email(),
       password: password,
     }
-    const response = await supertest(app).post("/sign-in").send(body);
+    const response = await agent.post("/sign-in").send(body);
     
     expect(response.status).toBe(400);
   });
@@ -111,7 +113,7 @@ describe("POST /sign-in", () => {
       email: email,
       password: faker.internet.password(),
     }
-    const response = await supertest(app).post("/sign-in").send(body);
+    const response = await agent.post("/sign-in").send(body);
     
     expect(response.status).toBe(401);
   });
@@ -125,7 +127,7 @@ describe("POST /sign-in", () => {
       email: email,
       password: password,
     }
-    const response = await supertest(app).post("/sign-in").send(body);
+    const response = await agent.post("/sign-in").send(body);
     
     expect(response.status).toBe(200);
     expect(response.body).toEqual(expect.objectContaining({

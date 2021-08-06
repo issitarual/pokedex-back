@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import UserPokemons from "./userPokemons";
 
 @Entity("pokemons")
 export default class Pokemons {

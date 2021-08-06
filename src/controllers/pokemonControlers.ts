@@ -13,7 +13,7 @@ export async function addPokemons(req: Request, res: Response){
     const pokemonId = req.params.id;
 
     await pokemonServices.addUserPokemons(userId, parseInt(pokemonId));
-    res.sendStatus(200)
+    res.sendStatus(200);
 }
 
 export async function removePokemons(req: Request, res: Response){
@@ -21,5 +21,5 @@ export async function removePokemons(req: Request, res: Response){
     const pokemonId = req.params.id;
 
     await pokemonServices.removeUserPokemons(userId, parseInt(pokemonId));
-    res.sendStatus(200)
+    res.sendStatus(200);
 }

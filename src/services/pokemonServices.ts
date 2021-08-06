@@ -2,10 +2,6 @@ import { getRepository } from "typeorm";
 import Pokemons from "../entities/Pokemons";
 import UserPokemons from "../entities/userPokemons";
 
-interface AddUser extends Pokemons{
-    inMyPokemons: boolean
-}
-
 export async function listPokemons(id: number){
     const userPokemons = await getRepository(UserPokemons).find({ 
         where: {

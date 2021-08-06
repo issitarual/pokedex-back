@@ -5,7 +5,7 @@ import faker, { fake } from "faker";
 import app, { init } from "../../src/app";
 import { createUser } from "../factories/userFactory";
 import { clearDatabase } from "../utils/database";
-import { createUserPokemon } from "../factories/pokemonFactory";
+import { createUserPokemon, userPokemonsTable } from "../factories/pokemonFactory";
 
 beforeAll(async () => {
   await init();
@@ -19,11 +19,12 @@ afterAll(async () => {
   await getConnection().close();
 });
 
-describe("GET /pokemons", () => {
+const agent = supertest(app);
 
+describe("GET /pokemons", () => {
     it("should answer with status 401 for inavlid token", async () => {
   
-      const response = await supertest(app).get("/pokemons").set('Authorization', `Bearer `);
+      const response = await agent.get("/pokemons").set('Authorization', `Bearer `);
       
       expect(response.status).toBe(401);
     });
@@ -31,7 +32,7 @@ describe("GET /pokemons", () => {
     it("should answer with status 401 for inavlid token", async () => {
         const token = faker.datatype.uuid();
 
-        const response = await supertest(app).get("/pokemons").set('Authorization', `Bearer ${token}`);
+        const response = await agent.get("/pokemons").set('Authorization', `Bearer ${token}`);
         
         expect(response.status).toBe(401);
     });
@@ -39,7 +40,7 @@ describe("GET /pokemons", () => {
     it("should answer with status 200 for valid params", async () => {
         const token = await createUserPokemon();
 
-        const response = await supertest(app).get("/pokemons").set('Authorization', `Bearer ${token}`);
+        const response = await agent.get("/pokemons").set('Authorization', `Bearer ${token}`);
         
         expect(response.status).toBe(200);
 
@@ -51,49 +52,67 @@ describe("GET /pokemons", () => {
             ])
           );
     });
+  });
+
+  describe("POST /my-pokemons/:id/add", () => {
+
+    it("should answer with status 401 for inavlid token", async () => {
   
-    /* it("should answer with status 400 for invalid e-mail", async () => {
-      const email = faker.internet.email();
-      const password = faker.internet.password();
-      await createUser(email, password);
-  
-      const body = {
-        email: faker.internet.email(),
-        password: password,
-      }
-      const response = await supertest(app).post("/sign-in").send(body);
-      
-      expect(response.status).toBe(400);
-    });
-  
-    it("should answer with status 401 for invalid password", async () => {
-      const email = faker.internet.email();
-      const password = faker.internet.password();
-      await createUser(email, password);
-  
-      const body = {
-        email: email,
-        password: faker.internet.password(),
-      }
-      const response = await supertest(app).post("/sign-in").send(body);
+      const response = await agent.post("/my-pokemons/1/add").set('Authorization', `Bearer `);
       
       expect(response.status).toBe(401);
     });
+
+    it("should answer with status 401 for inavlid token", async () => {
+        const token = faker.datatype.uuid();
+
+        const response = await agent.post("/my-pokemons/1/add").set('Authorization', `Bearer ${token}`);
+        
+        expect(response.status).toBe(401);
+    });
+
+     it("should answer with status 200 for valid params", async () => {
+        const token = await createUserPokemon();
+        const beforeAdd = await userPokemonsTable();
+
+        const response = await agent.post("/my-pokemons/1/add").set('Authorization', `Bearer ${token}`);
+        
+        const afterAdd = await userPokemonsTable();
+
+        expect(response.status).toBe(200);
+        expect(afterAdd - beforeAdd).toBe(1);
+    }); 
+  });
+
+  describe("POST /my-pokemons/:id/remove", () => {
+
+    it("should answer with status 401 for inavlid token", async () => {
   
-    it("should answer with status 200 for valid params", async () => {
-      const email = faker.internet.email();
-      const password = faker.internet.password();
-      await createUser(email, password);
-  
-      const body = {
-        email: email,
-        password: password,
-      }
-      const response = await supertest(app).post("/sign-in").send(body);
+      const response = await agent.post("/my-pokemons/1/remove").set('Authorization', `Bearer `);
       
+      expect(response.status).toBe(401);
+    });
+
+    it("should answer with status 401 for inavlid token", async () => {
+        const token = faker.datatype.uuid();
+
+        const response = await agent.post("/my-pokemons/1/remove").set('Authorization', `Bearer ${token}`);
+        
+        expect(response.status).toBe(401);
+    });
+
+    it("should answer with status 200 for valid params", async () => {
+      const token = await createUserPokemon();
+      
+      await agent.post("/my-pokemons/1/add").set('Authorization', `Bearer ${token}`);
+
+      const beforeRemove = await userPokemonsTable();
+
+      const response = await agent.post("/my-pokemons/1/remove").set('Authorization', `Bearer ${token}`);
+      
+      const afterRemove = await userPokemonsTable();
+
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(expect.objectContaining({
-        token: response.body.token
-      }))
-    }); */
+      expect(beforeRemove - afterRemove).toBe(1);
+  }); 
   });
