@@ -20,12 +20,10 @@ export async function listPokemons(id: number){
         }
         else{
             const pokemonId = pokemons[i].id;
+            pokemons[i].inMyPokemons = false;
             for(let j = 0; j < userPokemons.length; j++){
                 if(userPokemons[j].pokemonId === pokemonId){
                     pokemons[i].inMyPokemons = true;
-                }
-                else{
-                    pokemons[i].inMyPokemons = false;
                 }
             }
         }
@@ -46,7 +44,7 @@ export async function removeUserPokemons(userId: number, pokemonId: number){
           userId: userId 
         }
     });
-    
+
     const pokemon = userPokemons.find(n => n.pokemonId === pokemonId);
 
     await getRepository(UserPokemons).delete({id: pokemon.id})
