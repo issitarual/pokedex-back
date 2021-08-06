@@ -1,6 +1,5 @@
 import { getRepository } from "typeorm";
 
-import faker from "faker";
 import User from "../../src/entities/User";
 import bcrypt from "bcrypt";
 

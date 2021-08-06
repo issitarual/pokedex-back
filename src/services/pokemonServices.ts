@@ -7,13 +7,11 @@ interface AddUser extends Pokemons{
 }
 
 export async function listPokemons(id: number){
-    console.log(id)
     const userPokemons = await getRepository(UserPokemons).find({ 
         where: {
           userId: id 
         }
       });
-    console.log(userPokemons);
     let pokemons: any[] = await getRepository(Pokemons).find();
 
     for(let i = 0; i < pokemons.length; i++){
@@ -32,6 +30,5 @@ export async function listPokemons(id: number){
             }
         }
     }
-    console.log(pokemons)
     return pokemons;
 }
