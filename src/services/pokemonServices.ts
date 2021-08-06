@@ -24,7 +24,7 @@ export async function listPokemons(id: number){
 
     for(let j = 0; j < pokemons.length; j++){
         const pokemonId = pokemons[j].id;
-        if(pokemonsPassed.pokemonId){
+        if(pokemonsPassed.pokemonId === true){
             pokemons[j].inMyPokemons = true;
         }
         else{
