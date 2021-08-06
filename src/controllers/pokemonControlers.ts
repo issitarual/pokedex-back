@@ -3,7 +3,7 @@ import * as pokemonServices from "../services/pokemonServices";
 
 export async function allPokemons(req: Request, res: Response){
     const id: number = res.locals.id;
-
+    console.log(id);
     const pokemonList = await pokemonServices.listPokemons(id);
     res.send(pokemonList);
 }

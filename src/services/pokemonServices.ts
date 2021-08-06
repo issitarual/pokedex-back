@@ -7,6 +7,7 @@ interface AddUser extends Pokemons{
 }
 
 export async function listPokemons(id: number){
+    console.log(id)
     const userPokemons = await getRepository(UserPokemons).find({ 
         where: {
           userId: id 
