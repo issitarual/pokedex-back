@@ -20,6 +20,8 @@ export async function removePokemons(req: Request, res: Response){
     const userId: number = res.locals.id;
     const pokemonId = req.params.id;
 
-    await pokemonServices.removeUserPokemons(userId, parseInt(pokemonId));
+    const findPokemon = await pokemonServices.removeUserPokemons(userId, parseInt(pokemonId));
+    if(!findPokemon) return res.sendStatus(401);
+    
     res.sendStatus(200);
 }

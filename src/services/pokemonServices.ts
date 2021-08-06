@@ -43,5 +43,9 @@ export async function removeUserPokemons(userId: number, pokemonId: number){
 
     const pokemon = userPokemons.find(n => n.pokemonId === pokemonId);
 
+    if(!pokemon) return false;
+
     await getRepository(UserPokemons).delete({id: pokemon.id})
+
+    return true;
 }

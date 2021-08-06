@@ -22,7 +22,7 @@ const agent = supertest(app);
 
 describe("POST /sign-up", () => {
 
-  it("should answer with status 400 for inavlid params", async () => {
+  it("should answer with status 400 for invalid params", async () => {
 
     const response = await agent.post("/sign-up").send({});
     
@@ -83,7 +83,7 @@ describe("POST /sign-up", () => {
 
 describe("POST /sign-in", () => {
 
-  it("should answer with status 400 for inavlid params", async () => {
+  it("should answer with status 400 for invalid params", async () => {
 
     const response = await agent.post("/sign-in").send({});
     
