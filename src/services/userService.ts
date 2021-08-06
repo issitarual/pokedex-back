@@ -25,16 +25,16 @@ export async function findUserByEmail (email: string) {
 }
 
 export async function newUser ({email, password, confirmPassword}: SignUp) {
-   const value = userSchema.validate({
-    email: email,
-    password: password,
-    repeat_password: confirmPassword
-  })
+    const value = userSchema.validate({
+      email: email,
+      password: password,
+      repeat_password: confirmPassword
+    })
 
   if(value.error) return false;
 
   const user = {
-    email,
+    email: email,
     password: bcrypt.hashSync(password,12)
   }
 
